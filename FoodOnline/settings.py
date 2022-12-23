@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-# from decouple import config
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = config('SECRET_KEY')
-SECRET_KEY = 'django-insecure-u3mi0_4h*h_v1m$-#n%(f(@^@k54=yywhmxrtjui-%-fa2fmqc'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = config('DEBUG',cast=bool)
-DEBUG = True
+DEBUG = config('DEBUG',cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -40,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -79,12 +79,14 @@ WSGI_APPLICATION = 'FoodOnline.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'FoodOnline',
-        'USER' : 'postgres',
-        'PASSWORD' : '2213',
-        'HOST' : 'localhost',
+        'NAME': config('NAME'),
+        'USER' : config('USER'),
+        'PASSWORD' : config('PASSWORD'),
+        'HOST' : config('HOST'),
     }
 }
+
+AUTH_USER_MODEL = 'accounts.User'
 
 
 # Password validation
