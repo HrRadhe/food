@@ -1,5 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser,BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.db.models.fields.related import ForeignKey, OneToOneField
+
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -22,7 +24,7 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self,first_name,last_name,username,email,password=None):
-        user = self.model(
+        user = self.create_user(
             email=self.normalize_email(email),
             username=username,
             password=password,
@@ -59,7 +61,7 @@ class User(AbstractBaseUser):
     last_login = models.DateField(auto_now_add=True)
     create_date = models.DateField(auto_now_add=True)
     modified_date = models.DateField(auto_now_add=True)
-    is_admin = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)   
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     is_superadmin = models.BooleanField(default=False)
@@ -72,9 +74,33 @@ class User(AbstractBaseUser):
     def __str__(self):
         return self.email
 
-    def has_prem(self,perm,obj=None):
+    def has_perm(self,perm,obj=None):
         return self.is_admin
 
     def has_module_perms(self,app_label):
         return True
 
+
+class UserProfile(models.Model):
+    # user = OneToOneField(User, on_delete=models.CASCADE, blank = True,null = True)
+    user = OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='users/profile_pictures',blank=True,null=True)
+    cover_photo = models.ImageField(upload_to='users/cover_photos',blank=True,null=True)
+    address_line_1 = models.TextField(max_length=50,blank=True,null=True)
+    address_line_2 = models.TextField(max_length=50,blank=True,null=True)
+    country = models.CharField(max_length=15,blank=True,null=True)
+    state = models.CharField(max_length=15,blank=True,null=True)
+    city = models.CharField(max_length=15,blank=True,null=True)
+    pin_code = models.CharField(max_length=15,blank=True,null=True)
+    longitude = models.FloatField(max_length=20,blank=True,null=True)
+    latitude = models.FloatField(max_length=20,blank=True,null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+
+def __str__(self):
+    return self.user.email
+
+
+
+ 
