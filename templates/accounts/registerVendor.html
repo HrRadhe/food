@@ -111,13 +111,7 @@
                                         {% comment %} success messeges {% endcomment %}
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                {% if messages %}
-                                                    {% for i in messages %}
-                                                    <div class="alert alert-success" role="alert">
-                                                       {{i}}
-                                                    </div>
-                                                    {% endfor %}
-                                                {% endif %}
+                                                {% include 'includes/alerts.html' %}
                                             </div>
                                         </div>
                                     </li>
