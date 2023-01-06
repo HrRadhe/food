@@ -37,7 +37,7 @@ def vprofile(request):
             profile_form.save()
             vendor_form.save()
             messages.success(request, 'Profile update successfully')
-            return redirect('vprofile/')
+            return redirect('vprofile')
         else:
             print(profile_form.errors)
             print(vendor_form.errors)

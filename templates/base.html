@@ -19,6 +19,9 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 	<link href="{%static 'css/bootstrap-slider.css' %}" rel="stylesheet">
 	
+	{% comment %} j query {% endcomment %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	
 	
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
@@ -28,9 +31,15 @@
 	<script src="{%static 'js/bootstrap.js'%}"></script>
 
 	<link rel="stylesheet" href="{% static 'css/custom.css' %}">
+	
+	<!-- sweetalert -->
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 	{% comment %} Google API {% endcomment %}
+	{% if '/profile/' in request.path%}
 	<script src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_API_KEY}}&libraries=places&callback=initAutoComplete" async defer></script>
+	{% endif %}
+
 	<script src="{% static 'js/custom.js' %}"></script>
 
 	<style>
