@@ -193,7 +193,7 @@ def activate(request, uidb64, token):
 
 def forgot_password(request):
     if request.method == 'POST':
-        email = request.POST['email']
+        email = request.POST.get('email')
 
         if User.objects.filter(email=email).exists():
             user = User.objects.get(email__exact=email)

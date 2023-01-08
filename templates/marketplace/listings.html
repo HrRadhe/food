@@ -43,6 +43,10 @@
                                                 </h5>
                                             </div>
                                             <address><span>{{vendor.user_profile.city}}, {{vendor.user_profile.state}}, {{vendor.user_profile.pin_code}}</span></address>
+                                            {% if  vendor.kms %}
+                                            <br>
+                                            <span>{{vendor.kms}}</span>
+                                            {% endif %}
                                         </div>
                                         <div class="list-option">
 
