@@ -57,17 +57,17 @@
 									</nav><!-- .main-navigation --> 
 								</div> {% endcomment %}
 							
-							<div class="main-location">
+							<div class="main-location" style="margin-left: 20px;">
 								<ul>
 									<li class="location-has-children choose-location">
 										<form action="#">
-											<input type="text" value="" name="location" placeholder="Enter your delivery location" autocomplete="off">
-											<span id="foodbakery_radius_location_open" class="foodbakery-radius-location"><i class="icon-target5"></i></span>
+											<input type="text" value="" name="location" id='location' placeholder="your current location" autocomplete="off">
+											<span id="foodbakery_radius_location_open" class="foodbakery-radius-location" onclick="getLocation()"><i class="icon-target5"></i></span>
 										</form>
 										
 									</li>
 								</ul>
-								</div>
+							</div>
 						</div>
 						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 							<div class="login-option">
@@ -95,5 +95,65 @@
 			</div>
 		</header>
 		<!-- Header End -->
+		<!-- https://www.w3schools.com/html/html5_geolocation.asp -->
+		<script>
+			var x = document.getElementById("location");
+			var current_location = sessionStorage.getItem("location");
+			console.log(Current_location)
+			// if(current_location != ""){
+			// 	x.value = current_location;
+			// 	// alert('fsf')
+			// }
+			// else{
+			// 	// x.value = "None";
+            // }
+			
+			function getLocation() {
+				// alert('test')
+				// return false;
+			  if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(showPosition);
+			  } else {
+				x.innerHTML = "Geolocation is not supported by this browser.";
+			  }
+			}
+			
+			function showPosition(position) {
+				// console.log(position);
+            	var lat = position.coords.latitude;
+            	var lng = position.coords.longitude;
 
-	
+				x.value = lat +"," +lng ;
+			// x.innerHTML = "Latitude: " + position.coords.latitude +
+			//   "<br>Longitude: " + position.coords.longitude;
+
+			//hit ajax request to google map api and get the location data using lat and lon
+			var GOOGLE_API_KEY = "{{GOOGLE_API_KEY}}";
+			var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lng+"&key="+GOOGLE_API_KEY;
+			// console.log(url);
+
+			$.ajax({
+				url: url,
+                type: "GET",
+				success: function(response) {
+					if (response.status != "REQUEST_DENIED") {
+					// console.log(response);
+					var location = response.results[0].formatted_address;
+					// console.log(location);
+					x.value = location;
+					sessionStorage.setItem("location",location);
+					window.location = "?lat="+lat+"&lng="+lng;					
+
+					}
+					else{
+						var location = "API errors";
+						// console.log(response);
+						x.value = location ;
+						sessionStorage.setItem("location","");
+						window.location = "?lat=&lng=";					
+
+					}
+				}
+			})
+			}
+		</script> 
