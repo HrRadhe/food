@@ -3,7 +3,7 @@ from django.shortcuts import HttpResponse, redirect
 from django.http import JsonResponse 
 from vendor.models import Vendor
 from menu.models import Category,FoodItem
-from vendor.models import Vendor
+from vendor.models import Vendor, OpeningHour
 from .models import Cart
 from .context_processors import get_cart_counter,get_cart_amount
 
@@ -15,6 +15,8 @@ from django.db.models import Q
 from django.contrib.gis.geos import GEOSGeometry
 from django.contrib.gis.measure import D
 from django.contrib.gis.db.models.functions import Distance
+
+from datetime import date, datetime 
 
 # Create your views here.
 
@@ -39,6 +41,35 @@ def vendor_detail(request, vendor_slug):
         )
     )
 
+    # # add this item at last video no. 150
+    # opening_hours = OpeningHour.objects.filter(vendor=vendor).order_by('day', '-from_hour')
+    # # print(opening_hours)
+    # # # check opening hour is today
+    # today_date = date.today().isoweekday()
+    # # print(today_date)
+    
+    # current_opening_hour = OpeningHour.objects.filter(vendor=vendor, day = today_date)
+    # # print(current_opening_hour)
+
+    # current_time = datetime.now().strftime("%H:%M:%S")
+    # # print(current_time)
+
+    # is_open = None
+    # for i in current_opening_hour:
+    #     start = str(datetime.strptime(i.from_hour, "%I:%M %p").time())
+    #     end = str(datetime.strptime(i.to_hour, "%I:%M %p").time())
+    #     #print(start, end)
+    #     if current_time > start and current_time < end:
+    #         is_open = True
+    #         break
+    #     else:
+    #         is_open = False
+    # print(is_open)
+    # # after addind member function in model
+    opening_hours = OpeningHour.objects.filter(vendor=vendor).order_by('day', '-from_hour')
+    today_date = date.today().isoweekday()
+    current_opening_hour = OpeningHour.objects.filter(vendor=vendor, day = today_date)
+
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user)
     else:
@@ -47,6 +78,9 @@ def vendor_detail(request, vendor_slug):
         'cart_items' : cart_items,
         'vendor' : vendor,
         'category' : category,
+        'opening_hours' : opening_hours,
+        'current_opening_hour' : current_opening_hour,
+        # 'is_open' : is_open,
     }
     return render(request, 'marketplace/vendor_detail.html', context)
 
