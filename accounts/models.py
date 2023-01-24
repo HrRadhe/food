@@ -107,7 +107,7 @@ class UserProfile(models.Model):
     location = gismodels.PointField(blank=True, null=True, srid=4326)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
-
+    
 
     # def full_address(self):
     #     return f'{self.address_line_1}, {self.address_line_2}'

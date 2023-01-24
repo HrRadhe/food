@@ -78,10 +78,10 @@
                                     </li>
                                     <li>
                                         {% comment %} form field validations {% endcomment %}
-                                        {% for field in form%}
+                                        {% for field in from%}
                                             {% if field.errors %}
-                                                {% for errors in field.errors %}
-                                                    <li style = "color:red">{{errors}}</li>
+                                                {% for error in field.errors %}
+                                                    <li style = "color:red">{{error}}</li>
                                                 {% endfor %}
                                             {% endif %}
                                         {% endfor %}

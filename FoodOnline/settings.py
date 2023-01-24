@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'menu',
     'marketplace',
     'customers',
+    'orders',
 ]
 
 MIDDLEWARE = [
@@ -78,6 +79,7 @@ TEMPLATES = [
                 'marketplace.context_processors.get_cart_counter',
                 'marketplace.context_processors.get_cart_amount',
                 'accounts.context_processors.get_user_profile',
+                'accounts.context_processors.get_paypal_client_id',
             ]
         },
     },
@@ -171,3 +173,9 @@ GOOGLE_API_KEY = config('GOOGLE_API_KEY')
 os.environ['PATH'] = os.path.join(BASE_DIR, 'bav\Lib\site-packages\osgeo') + ';' + os.environ['PATH']
 os.environ['PROJ_LIB'] = os.path.join(BASE_DIR, 'bav\Lib\site-packages\osgeo\data\proj') + ';' + os.environ['PATH']
 GDAL_LIBRARY_PATH = os.path.join(BASE_DIR, 'bav\Lib\site-packages\osgeo\gdal303.dll')
+
+#PayPal configuration
+PAYPAL_CLIENT_ID = config('PAYPAL_CLIENT_ID')
+
+# for blank paypal pop-up fix by this code
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow- popups' 

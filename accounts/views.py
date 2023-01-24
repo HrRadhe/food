@@ -1,6 +1,5 @@
 # from http.client import HTTPResponse
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
 
 from .forms import UserForm
 from .models import User ,UserProfile
@@ -69,7 +68,6 @@ def registerUser(request):
             messages.error(request, "Something going  wrong,Please try agings!!")
             print('invalid')
             print(form.errors)
-            return redirect('registerUser')
 
     else:   
         form = UserForm()
@@ -200,7 +198,7 @@ def forgot_password(request):
 
             # send reset password email
             mail_subject = 'Reset Your Password'
-            email_template = 'accounts/emails/reset_password_email.html'
+            email_template = 'accounts/emails/reset_password.html'
             send_verification_email(request, user, mail_subject, email_template)
 
             messages.success(request, 'Password reset link has been sent to your email address.')
